@@ -14,7 +14,7 @@ class BFGS_Optimization{
 
     private:
 
-        double tol,eps;
+        double tol,eps,denom;
 
         double stepMonitor,rho,alphaMax,stepMonitorSafety;
 
