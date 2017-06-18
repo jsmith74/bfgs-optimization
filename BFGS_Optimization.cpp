@@ -157,7 +157,7 @@ void BFGS_Optimization::setAlphaJ(double& alphaj,double& alphaLow,double& alphaH
 
         }
 
-        else assert(secondDerivativeTest == 0.0);
+        else assert(std::abs(secondDerivativeTest) <= 100 * MACHINEPRECISION);
 
     }
 
@@ -181,7 +181,7 @@ void BFGS_Optimization::setAlphaJ(double& alphaj,double& alphaLow,double& alphaH
 
         }
 
-        else assert(secondDerivativeTest == 0.0);
+        else assert(std::abs(secondDerivativeTest) <= 100 * MACHINEPRECISION);
 
     }
 
