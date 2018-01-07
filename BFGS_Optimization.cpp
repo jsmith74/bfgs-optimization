@@ -25,7 +25,7 @@
 
 /** ===== Print Step Monitor ======================================= */
 
-#define PRINT_STEP_MONITOR 0
+#define PRINT_STEP_MONITOR 0 // NUMBER CHOOSES WHICH MFI (MERIT FUNCTION INDEX) YOU WANT TO MONITOR (COMMENT THIS LINE OUT FOR NO MONITOR)
 
 /** ================================================================ */
 

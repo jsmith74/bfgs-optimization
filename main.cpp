@@ -6,17 +6,17 @@
 
 int main( int argc, char *argv[] ){
 
-    //srand(611*time(NULL));
+    srand(611*time(NULL));
 
     double gradientCheck = 1e-6;
 
     double maxStepSize = 2.0;
 
-    int meritFunctionIndex = 0;
+    int meritFunctionIndex = 0;  // SET WHICH MERIT FUNCTION YOU WANT TO MINIMIZE
 
-    BFGS_Optimization optimizer(gradientCheck,maxStepSize,meritFunctionIndex);
+    BFGS_Optimization optimizer(gradientCheck,maxStepSize,meritFunctionIndex); //INITIALIZE THE MERIT FUNCTION
 
-    optimizer.minimize();
+    optimizer.minimize();  //MINIMIZE THE MERIT FUNCTION
 
     return 0;
 

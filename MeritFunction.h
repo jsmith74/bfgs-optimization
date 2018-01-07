@@ -15,9 +15,10 @@ class MeritFunction{
         int funcDimension;
         void printReport(Eigen::VectorXd& position);
         Eigen::VectorXd setInitialPosition();
-        int MFI;
 
     private:
+
+        int MFI;
 
 };
 

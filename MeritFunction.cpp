@@ -6,14 +6,42 @@ void MeritFunction::setMeritFunction(int meritFunctionIndex){
 
     MFI = meritFunctionIndex;
 
-    if(MFI == 0) funcDimension = 2;
+    if(MFI == 0){
 
-    else if(MFI == 1) funcDimension = 3;
+        funcDimension = 2;
+
+    }
+
+    else if(MFI == 1){
+
+        funcDimension = 3;
+
+    }
 
     return;
 
 }
 
+
+Eigen::VectorXd MeritFunction::setInitialPosition(){
+
+    Eigen::VectorXd position;
+
+    if(MFI == 0){
+
+        position = Eigen::VectorXd::Random(funcDimension);
+
+    }
+
+    else if(MFI == 1){
+
+        position = Eigen::VectorXd::Random(funcDimension);
+
+    }
+
+    return position;
+
+}
 
 
 double MeritFunction::f(Eigen::VectorXd& position){
@@ -34,7 +62,11 @@ double MeritFunction::f(Eigen::VectorXd& position){
 
     }
 
-    else if(MFI == 1) return std::pow(position(0) - 3.5,4) + std::pow(position(1),2) + std::pow(position(2),2);
+    else if(MFI == 1){
+
+        return std::pow(position(0) - 3.5,4) + std::pow(position(1),2) + std::pow(position(2),2);
+
+    }
 
 }
 
@@ -43,9 +75,11 @@ void MeritFunction::printReport(Eigen::VectorXd& position){
 
 
     if(MFI == 0){
+
         std::cout << "OPTIMIZATION RESULT: " << std::endl;
         std::cout << std::pow(position(0) * position(1) - 3,2) + 1.0 << std::endl << std::endl;
         std::cout << position.transpose() << std::endl << std::endl;
+
     }
 
     else if(MFI == 1){
@@ -53,21 +87,13 @@ void MeritFunction::printReport(Eigen::VectorXd& position){
         //std::cout << "OPTIMIZATION RESULT: " << std::endl;
         //std::cout << std::pow(position(0) - 3.5,4) + std::pow(position(1),2) + std::pow(position(2),2) << std::endl << std::endl;
         //std::cout << position.transpose() << std::endl << std::endl;
+
     }
 
     return;
 
 }
 
-
-
-Eigen::VectorXd MeritFunction::setInitialPosition(){
-
-    Eigen::VectorXd position = Eigen::VectorXd::Random(funcDimension);
-
-    return position;
-
-}
 
 
 MeritFunction::MeritFunction(){
