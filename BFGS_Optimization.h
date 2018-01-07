@@ -8,7 +8,7 @@ class BFGS_Optimization{
 
     public:
 
-        BFGS_Optimization(double tolerance,double maxStepSize,int intParam);
+        BFGS_Optimization(double tolerance,double maxStepSize,int meritFunctionIndex);
         double minimize();
         double bestResult;
 
@@ -40,7 +40,7 @@ class BFGS_Optimization{
         void setAlphaJ(double& alphaj,double& alphaLow,double& alphaHigh,double& phiLow,double& phiHigh,double& phiLowPrime);
         bool zoomGuard,quadInterpolationFailure,wolfeConditionFailure,maxStepSize,maxIterationGuard;
         double secondDerivativeTest;
-        int funcDimension;
+        int funcDimension, MFI;
 
 };
 

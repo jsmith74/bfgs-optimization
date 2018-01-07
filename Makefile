@@ -1,7 +1,7 @@
 CC = g++
 OBJS = main.o MeritFunction.o BFGS_Optimization.o
-CFLAGS = -O3 -c
-LFLAGS = -O3
+CFLAGS = -Ofast -c
+LFLAGS = -Ofast
 INCLUDE = -I /home/jake/Documents/EIGEN
 
 all: a.out

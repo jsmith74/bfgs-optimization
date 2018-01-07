@@ -25,14 +25,7 @@
 
 /** ===== Print Step Monitor ======================================= */
 
-#define PRINT_STEP_MONITOR
-
-/** ================================================================ */
-
-
-/** ===== Seed Random Number Generator ============================= */
-
-#define SEED_RANDOM_NUMBER_GENERATOR
+#define PRINT_STEP_MONITOR 0
 
 /** ================================================================ */
 
@@ -52,7 +45,7 @@
 
 /** ===== Turn on Optimization Warning Messages ==================== */
 
-#define OPT_WARNING_MESSAGE
+#define OPT_WARNING_MESSAGE 0
 
 /** ================================================================ */
 
@@ -69,7 +62,7 @@ double BFGS_Optimization::alpha(){
 
     #ifdef PRINT_STEP_MONITOR
 
-        if(phiPrime0 > 0.0){
+        if(MFI == PRINT_STEP_MONITOR && phiPrime0 > 0.0){
 
             std::cout << "Positive directional derivative in line search..." << std::endl;
 
@@ -123,7 +116,7 @@ double BFGS_Optimization::alpha(){
 
     #ifdef PRINT_STEP_MONITOR
 
-        std::cout << "This iteration of BFGS has taken the maximum step size." << std::endl;
+        if(MFI == PRINT_STEP_MONITOR) std::cout << "This iteration of BFGS has taken the maximum step size." << std::endl;
 
     #endif // PRINT_STEP_MONITOR
 
@@ -196,8 +189,10 @@ double BFGS_Optimization::zoom(double alphaLow,double alphaHigh,double phiLow,do
 
     #ifdef PRINT_STEP_MONITOR
 
-        std::cout << "Zooming into interval...\n";
-        std::cout << alphaLow << "\t" << alphaHigh << std::endl;
+        if(MFI == PRINT_STEP_MONITOR){
+            std::cout << "Zooming into interval...\n";
+            std::cout << alphaLow << "\t" << alphaHigh << std::endl;
+        }
 
     #endif // PRINT_STEP_MONITOR
 
@@ -247,7 +242,8 @@ double BFGS_Optimization::zoom(double alphaLow,double alphaHigh,double phiLow,do
 
         #ifdef PRINT_STEP_MONITOR
 
-            std::cout << "\t\t\t\t" <<  phij << "\t" << phiLowPrime  << ": \t" << alphaj << "\t" << alphaLow << "\t" << alphaHigh << "\t" << phiLow << "\t" << phiHigh << std::endl;
+            if(MFI == PRINT_STEP_MONITOR) std::cout << "\t\t\t\t" <<  phij << "\t" << phiLowPrime  << ": \t" << alphaj <<
+               "\t" << alphaLow << "\t" << alphaHigh << "\t" << phiLow << "\t" << phiHigh << std::endl;
 
         #endif // PRINT_STEP_MONITOR
 
@@ -274,7 +270,7 @@ double BFGS_Optimization::zoom(double alphaLow,double alphaHigh,double phiLow,do
 
                 #ifdef PRINT_STEP_MONITOR
 
-                    std::cout << "Unexpected Zoom Ending Condition... " << std::endl;
+                    if(MFI == PRINT_STEP_MONITOR) std::cout << "Unexpected Zoom Ending Condition... " << std::endl;
 
                 #endif // PRINT_STEP_MONITOR
 
@@ -351,7 +347,7 @@ void BFGS_Optimization::printStepMonitor(){
 
     #ifdef PRINT_STEP_MONITOR
 
-        std::cout << counter << "\t" << stepMonitor << "\t" << gradient.norm() << "\t" << rho << std::endl;
+        if(MFI == PRINT_STEP_MONITOR) std::cout << counter << "\t" << stepMonitor << "\t" << gradient.norm() << "\t" << rho << std::endl;
 
     #endif // PRINT_STEP_MONITOR
 
@@ -485,15 +481,19 @@ void BFGS_Optimization::printResultReport(){
 
     #ifdef OPT_WARNING_MESSAGE
 
-        if(zoomGuard) std::cout << "Warning: Zoom Guard Was Hit..." << std::endl  <<  std::endl;
+        if(MFI == OPT_WARNING_MESSAGE){
 
-        if(quadInterpolationFailure) std::cout << "Warning: Quadratic Interpolation Failure..." << std::endl << std::endl;
+            if(zoomGuard) std::cout << "Warning: Zoom Guard Was Hit..." << std::endl  <<  std::endl;
 
-        if(wolfeConditionFailure) std::cout << "Wolfe Condition failure on a step (should be rare)..." << std::endl << std::endl;
+            if(quadInterpolationFailure) std::cout << "Warning: Quadratic Interpolation Failure..." << std::endl << std::endl;
 
-        if(maxStepSize) std::cout << "BFGS took the maximum step size for at least one iteration..." << std::endl << std::endl;
+            if(wolfeConditionFailure) std::cout << "Wolfe Condition failure on a step (should be rare)..." << std::endl << std::endl;
 
-        if(maxIterationGuard) std::cout << "BFGS has taken the maximum number of steps imposed by the user..." << std::endl << std::endl;
+            if(maxStepSize) std::cout << "BFGS took the maximum step size for at least one iteration..." << std::endl << std::endl;
+
+            if(maxIterationGuard) std::cout << "BFGS has taken the maximum number of steps imposed by the user..." << std::endl << std::endl;
+
+        }
 
     #endif // OPT_WARNING_MESSAGE
 
@@ -503,13 +503,7 @@ void BFGS_Optimization::printResultReport(){
 
 
 
-BFGS_Optimization::BFGS_Optimization(double tolerance,double maxStepSize,int intParam){
-
-    #ifdef SEED_RANDOM_NUMBER_GENERATOR
-
-        srand(611*time(NULL));
-
-    #endif // SEED_RANDOM_NUMBER_GENERATOR
+BFGS_Optimization::BFGS_Optimization(double tolerance,double maxStepSize,int meritFunctionIndex){
 
     #ifdef FORWARD_DIFFERENCE
 
@@ -527,9 +521,11 @@ BFGS_Optimization::BFGS_Optimization(double tolerance,double maxStepSize,int int
 
     alphaMax = maxStepSize;
 
-    meritFunction.setMeritFunction(intParam);
+    meritFunction.setMeritFunction(meritFunctionIndex);
 
     bestResult = 1e30;
+
+    MFI = meritFunctionIndex;
 
 }
 

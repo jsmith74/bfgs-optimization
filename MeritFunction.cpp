@@ -1,10 +1,14 @@
 #include "MeritFunction.h"
+#include "BFGS_Optimization.h"
 
 
+void MeritFunction::setMeritFunction(int meritFunctionIndex){
 
-void MeritFunction::setMeritFunction(int intParam){
+    MFI = meritFunctionIndex;
 
-    funcDimension = 2;
+    if(MFI == 0) funcDimension = 2;
+
+    else if(MFI == 1) funcDimension = 3;
 
     return;
 
@@ -14,16 +18,42 @@ void MeritFunction::setMeritFunction(int intParam){
 
 double MeritFunction::f(Eigen::VectorXd& position){
 
-    return std::pow(position(0) * position(1) - 3,2) + 1.0;
+    if(MFI == 0){
+
+        double gradientCheck = 1e-6;
+
+        double maxStepSize = 2.0;
+
+        int meritFunctionIndex = 1;
+
+        BFGS_Optimization optimizer(gradientCheck,maxStepSize,meritFunctionIndex);
+
+        optimizer.minimize();
+
+        return std::pow(position(0) * position(1) - 3,2) + 1.0;
+
+    }
+
+    else if(MFI == 1) return std::pow(position(0) - 3.5,4) + std::pow(position(1),2) + std::pow(position(2),2);
 
 }
 
 
 void MeritFunction::printReport(Eigen::VectorXd& position){
 
-    std::cout << "OPTIMIZATION RESULT: " << std::endl;
-    std::cout << std::pow(position(0) * position(1) - 3,2) + 1.0 << std::endl << std::endl;
-    std::cout << position << std::endl << std::endl;
+
+    if(MFI == 0){
+        std::cout << "OPTIMIZATION RESULT: " << std::endl;
+        std::cout << std::pow(position(0) * position(1) - 3,2) + 1.0 << std::endl << std::endl;
+        std::cout << position.transpose() << std::endl << std::endl;
+    }
+
+    else if(MFI == 1){
+
+        //std::cout << "OPTIMIZATION RESULT: " << std::endl;
+        //std::cout << std::pow(position(0) - 3.5,4) + std::pow(position(1),2) + std::pow(position(2),2) << std::endl << std::endl;
+        //std::cout << position.transpose() << std::endl << std::endl;
+    }
 
     return;
 

@@ -6,23 +6,17 @@
 
 int main( int argc, char *argv[] ){
 
+    //srand(611*time(NULL));
+
     double gradientCheck = 1e-6;
 
     double maxStepSize = 2.0;
 
-    int intParam = 0;
+    int meritFunctionIndex = 0;
 
-    clock_t t1,t2;
+    BFGS_Optimization optimizer(gradientCheck,maxStepSize,meritFunctionIndex);
 
-    BFGS_Optimization optimizer(gradientCheck,maxStepSize,intParam);
-
-    t1 = clock();
     optimizer.minimize();
-    t2 = clock();
-
-    float diff = (float)t2 - (float)t1;
-
-    std::cout << "Runtime: " << diff/CLOCKS_PER_SEC << std::endl << std::endl;
 
     return 0;
 

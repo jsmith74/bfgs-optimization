@@ -4,16 +4,18 @@
 #include <Eigen/Dense>
 #include <iostream>
 
+
 class MeritFunction{
 
     public:
 
         MeritFunction();
-        void setMeritFunction(int intParam);
+        void setMeritFunction(int meritFunctionIndex);
         double f(Eigen::VectorXd& position);
         int funcDimension;
         void printReport(Eigen::VectorXd& position);
         Eigen::VectorXd setInitialPosition();
+        int MFI;
 
     private:
 
